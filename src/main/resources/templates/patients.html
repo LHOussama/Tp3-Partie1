@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="webjars/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+<div class="p-3">
+    <div class="card">
+        <div class="card-header">Liste Patients</div>
+        <div class="card-body">
+            <form method="get" th:action="@{index}">
+                <div>
+                    <label>KeyWord</label>
+                    <input  type="text" name="keyword" th:value="${keyWord}"/>
+                    <button type="submit" class="btn btn-info" ><i class="bi bi-search"></i></button>
+                </div>
+            </form>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Id </th>
+                    <th>Nom </th>
+                    <th>Malade</th>
+                    <th>Date </th>
+                    <th>Score </th>
+                </tr>
+                <tr th:each="p : ${listPatients}">
+                    <td th:text="${p.id}"></td>
+                    <td th:text="${p.nom}"></td>
+                    <td th:text="${p.malade}"></td>
+                    <td th:text="${p.date}"></td>
+                    <td th:text="${p.score}"></td>
+                    <td>
+                        <a  onclick="return confirm('Etes vous sure ?')" th:href="@{delete(id=${p.id},keyword=${keyWord},page=${currentPage})}" th:class="'btn btn-danger'"><i class="bi bi-trash"></i></a>
+                    </td>
+                </tr>
+
+                </thead>
+            </table>
+            <ul class=" nav nav-pills ">
+                <li th:each="page,status:${pages}">
+                    <a  th:href="@{index(p=${status.index},keyword=${keyWord})}"
+                        th:class="${currentPage==status.index?'btn btn-info ms-1 ':'btn btn-outline-info ms-1'}"
+                        th:text="${status.index}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
